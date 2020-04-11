@@ -12,7 +12,7 @@ export default function App() {
 }
 
 var text1 = "helo"
-var text2 = "moon"
+var text2 = "mon"
 
 function getJson(subreddit, callback){
   let xhr = new XMLHttpRequest()
@@ -21,12 +21,17 @@ function getJson(subreddit, callback){
   xhr.onLoad = function(){
     let status = xhr.status
     let response = xhr.response
+    alert(response)
     if(status == 200){
       callback(response)
+      Alert.alert(status, response)
     }else{
       Alert.alert(status, response)
     }
+    console.log(response)
   }
+  xhr.send()
+
 }
 
 getJson("memes",function(response){
