@@ -2,32 +2,35 @@ import React, {useState} from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
 
 export default function App() {
-
-  const [text, setText] = useState("ghelo")
+  const [postviews, setView] = useState([])
 
   let subreddit = "memes"
   let amount = 10
   let url = "https://www.reddit.com/r/" + subreddit + "/hot/.json?limit=" + amount
   console.log(url)
-  getJson(url,function(response){
+  getJson(url,(response) => {
     let postarray = response["data"]["children"]
     postarray.forEach((post, index) => {
         let body = post["data"]
         console.log(body["title"])
-    });
+        postviews.push(<Text key={index} >{body["title"]}sda</Text>)
+        setView(postviews)
+    })
     console.log("success")
-    setText("hi")
   })
 
 
-  return (
+  return(
     <View>
       <Text/>
-      <Text>{text}</Text>
+      <Text>hi</Text>
+      {postviews.forEach((item, index) => {
+        return item
+      })}
     </View>
   )
-}
 
+}
 
 function getJson(url, callback){
   let xhr = new XMLHttpRequest()
