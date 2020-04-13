@@ -1,39 +1,47 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
 
 export default function App() {
+
+  const [text, setText] = useState("ghelo")
+
+  let subreddit = "memes"
+  let amount = 10
+  let url = "https://www.reddit.com/r/" + subreddit + "/hot/.json?limit=" + amount
+  console.log(url)
+  getJson(url,function(response){
+    let postarray = response["data"]["children"]
+    postarray.forEach((post, index) => {
+        let body = post["data"]
+        console.log(body["title"])
+    });
+    console.log("success")
+    setText("hi")
+  })
+
+
   return (
     <View>
       <Text/>
-      <Text> {text1}</Text>
-      <Text> {text2}</Text>
+      <Text>{text}</Text>
     </View>
-  );
+  )
 }
 
-var text1 = "helo"
-var text2 = "mon"
 
-function getJson(subreddit, callback){
+function getJson(url, callback){
   let xhr = new XMLHttpRequest()
-  xhr.open("GET","https://www.reddit.com/r/${sub}/top/.json?limit=10",true)
+  xhr.open("GET",url,true)
   xhr.responseType = "json"
-  xhr.onLoad = function(){
+  xhr.onload = function(){
     let status = xhr.status
     let response = xhr.response
-    alert(response)
     if(status == 200){
       callback(response)
-      Alert.alert(status, response)
     }else{
-      Alert.alert(status, response)
+      console.log("fail")
+      console.log(status)
     }
-    console.log(response)
   }
   xhr.send()
-
 }
-
-getJson("memes",function(response){
-  Alert.alert("yayy",response)
-})
